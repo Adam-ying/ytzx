@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yingtao.ytzx.manager.mapper.SysRoleMapper">
+    <resultMap id="sysRoleMap" type="com.yingtao.ytzx.model.entity.system.SysRole"/>
+
+    <sql id="columns">
+        id,role_name,role_code,description,create_time,update_time,is_deleted
+    </sql>
+
+    <select id="findByPage" resultMap="sysRoleMap">
+        select <include refid="columns"/>
+        from sys_role
+        <where>
+            <if test="roleName != null and roleName != ''">
+                and role_name like concat('%', #{roleName}, '%')
+            </if>
+            and is_deleted = 0
+        </where>
+        order by id desc
+    </select>
+    
+    <insert id="insert">
+        insert into sys_role
+        (
+         id,role_name,role_code,description
+        )
+        values
+        (
+         #{id}, #{roleName}, #{roleCode}, #{description}
+        )
+    </insert>
+
+    <update id="updateById">
+        update sys_role set
+        <if test="roleName != null and roleName != ''">
+            role_name = #{roleName},
+        </if>
+        <if test="roleCode != null and roleCode != ''">
+            role_code = #{roleCode},
+        </if>
+        <if test="description != null and description != ''">
+            description = #{description}
+        </if>
+        id = #{id}
+    </update>
+
+    <update id="deleteById">
+        update sys_role set is_deleted = 1 where id = #{roleId}
+    </update>
+
+    <select id="findAllRoles" resultMap="sysRoleMap">
+        select <include refid="columns"/>
+        from sys_role
+        where is_deleted = 0
+    </select>
+
+
+
+</mapper>

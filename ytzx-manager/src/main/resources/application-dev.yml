@@ -1,0 +1,39 @@
+# 配置端口号
+server:
+  port: 8081
+
+spring:
+  # 配置数据库连接信息
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/db_spzx?characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+  # 配置redis相关配置
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: 1234
+
+# mybatis的配置
+mybatis:
+  config-location: classpath:/mybatis-config.xml
+  mapper-locations: classpath:/mapper/*/*xml
+
+# 自定义配置
+ytzx:
+  auth:
+    noAuthUrls:
+      - /admin/system/index/login
+      - /admin/system/index/generateValidateCode
+
+  minio:
+    endPointUrl: http://101.200.199.172:9001
+    accessKey: admin
+    secretKey: admin123
+    bucketName: ytzx-bucket
+
+
+

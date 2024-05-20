@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yingtao.ytzx.manager.mapper.ProductDetailsMapper">
+
+    <resultMap id="proDetMap" type="com.yingtao.ytzx.model.entity.product.ProductDetails" autoMapping="true"/>
+
+    <sql id="columns">
+        id,product_id,image_urls,create_time,update_time,is_deleted
+    </sql>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into product_details (
+            id,
+            product_id,
+            image_urls,
+            create_time,update_time,is_deleted
+        ) values (
+                     #{id},
+                     #{productId},
+                     #{imageUrls},
+                     now(),
+                     now(),
+                     0
+                 )
+    </insert>
+
+    <select id="getByProductId" resultMap="proDetMap">
+        select <include refid="columns"/>
+        from product_details
+        where product_id = #{id}
+    </select>
+
+    <update id="updateById" >
+        update product_details set
+        <if test="productId != null and productId != ''">
+            product_id = #{productId},
+        </if>
+        <if test="imageUrls != null and imageUrls != ''">
+            image_urls = #{imageUrls},
+        </if>
+        update_time =  now()
+        where
+        id = #{id}
+    </update>
+
+    <update id="deleteByProductId">
+        update product_details set update_time = now(), is_deleted = 1 where product_id = #{id}
+    </update>
+
+</mapper>
